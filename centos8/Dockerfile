@@ -1,18 +1,11 @@
 FROM centos:8
 
-RUN dnf -y update && \
+RUN dnf -y install dnf-plugins-core && \
+    dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
+    dnf -y update && \
     dnf -y reinstall dnf yum && \
-    dnf -y install man
-
-RUN dnf -y install git
-RUN git config --global user.name 'root' && \
-    git config --global user.email 'root@localhost' && \
-    cd /etc && \
-    git init && \
-    git add -A . && \
-    git commit -m 'Initial commit'
-
-RUN echo 'set -o vi' >> '/root/.bashrc'
-RUN echo 'alias ls="ls --color"' >> '/root/.bashrc'
+    dnf -y install etckeeper etckeeper-dnf man && \
+    etckeeper init && \
+    etckeeper commit 'Initial commit'
 
 CMD bash
