@@ -1,4 +1,5 @@
 FROM redhat/ubi8-init
+EXPOSE 5432/tcp
 
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
     dnf -y update && \
