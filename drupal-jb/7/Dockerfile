@@ -34,7 +34,7 @@ RUN set -eux && \
 
 RUN composer global require drush/drush:^8
 
-RUN yes | pecl install xdebug
+RUN yes | pecl install xdebug-3.1.5
 
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 COPY xdebug.ini /usr/local/etc/php/conf.d
