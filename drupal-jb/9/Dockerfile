@@ -2,7 +2,8 @@ FROM drupal:9
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    mariadb-client \
+      git \
+      mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
 RUN composer global require drush/drush
