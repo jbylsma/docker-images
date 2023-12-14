@@ -3,11 +3,11 @@ FROM drupal:7
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /usr/local/src/composer
 ENV COMPOSER_BIN_DIR /usr/local/bin
-ENV COMPOSER_VERSION 2.4.1
+ENV COMPOSER_VERSION 2.5.8
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    mariadb-client \
+    mariadb-client sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux && \
@@ -18,9 +18,9 @@ RUN set -eux && \
     --location \
     --retry 3 \
     --output /tmp/installer.php \
-    --url https://raw.githubusercontent.com/composer/getcomposer.org/f24b8f860b95b52167f91bbd3e3a7bcafe043038/web/installer \
+    --url https://raw.githubusercontent.com/composer/getcomposer.org/6674c87670ba2e2b2df959e236a1a6d229672d6c/web/installer \
   && \
-  echo 3137ad86bd990524ba1dedc2038309dfa6b63790d3ca52c28afea65dcc2eaead16fb33e9a72fd2a7a8240afaf26e065939a2d472f3b0eeaa575d1e8648f9bf19 /tmp/installer.php | sha512sum --strict --check && \
+  echo 55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae /tmp/installer.php | sha384sum --strict --check && \
   php /tmp/installer.php \
     --no-ansi \
     --install-dir=/usr/local/bin \
@@ -36,5 +36,6 @@ RUN composer global require drush/drush:^8
 
 RUN yes | pecl install xdebug-3.1.5
 
-RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
+    echo 'error_log = STDERR' >>/usr/local/etc/php/php.ini
 COPY xdebug.ini /usr/local/etc/php/conf.d
