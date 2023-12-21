@@ -1,0 +1,2 @@
+#!/bin/sh
+docker build -t 'drupal-jb:9-ldap' .
